@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Futuristic Login Page</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .container {
+            width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #222;
+            border: 1px solid #0f0;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #0f0;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #111;
+            color: #0f0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #0f0;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #090;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the ZenLeap</h1>
+        <form id="login-form">
+            <input type="text" placeholder="Username" id="username">
+            <input type="password" placeholder="Password" id="password">
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    
+
+    <script src="script.js"></script>
+</body>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script>
+   
+        // Add GSAP animation code here for login page
+        gsap.from(".container", { x: -400, opacity: 0, duration: 1 });
+        
+   
+</script>
+</html>

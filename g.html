@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flappy Bird</title>
+    <style>
+        /* Add your CSS styles here */
+        #gameCanvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="400" height="600"></canvas>
+
+    <script>
+        // Add your JavaScript code here
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Bird properties
+        const bird = {
+            x: 50,
+            y: canvas.height / 2,
+            radius: 20,
+            velocity: 0,
+            gravity: 0.5,
+            jump: 10
+        };
+
+        // Game loop
+        function gameLoop() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Update bird position
+            bird.velocity += bird.gravity;
+            bird.y += bird.velocity;
+
+            // Draw bird
+            ctx.beginPath();
+            ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'red';
+            ctx.fill();
+            ctx.closePath();
+
+            // Call game loop recursively
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Handle key press
+        function handleKeyPress(event) {
+            if (event.keyCode === 32) { // Space key
+                bird.velocity = -bird.jump;
+            }
+        }
+        // Obstacle properties
+        const obstacle = {
+            width: 50,
+            height: 200,
+            x: canvas.width,
+            y: 0,
+            speed: 5,
+            gap: 150
+        };
+
+        // Array to store multiple obstacles
+        const obstacles = [];
+
+        // Function to create new obstacles
+        function createObstacle() {
+            const minHeight = 50;
+            const maxHeight = canvas.height - obstacle.gap - minHeight;
+            const randomHeight = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
+
+            obstacles.push({
+                x: obstacle.x,
+                y: 0,
+                width: obstacle.width,
+                height: randomHeight
+            });
+
+            obstacles.push({
+                x: obstacle.x,
+                y: randomHeight + obstacle.gap,
+                width: obstacle.width,
+                height: canvas.height - randomHeight - obstacle.gap
+            });
+        }
+
+        // Function to move obstacles
+        function moveObstacles() {
+            for (let i = 0; i < obstacles.length; i++) {
+                obstacles[i].x -= obstacle.speed;
+
+                // Remove obstacles that are off the screen
+                if (obstacles[i].x + obstacles[i].width < 0) {
+                    obstacles.splice(i, 1);
+                    i--;
+                }
+            }
+        }
+
+        // Function to draw obstacles
+        function drawObstacles() {
+            for (let i = 0; i < obstacles.length; i++) {
+                ctx.fillStyle = 'green';
+                ctx.fillRect(obstacles[i].x, obstacles[i].y, obstacles[i].width, obstacles[i].height);
+            }
+        }
+
+        // Update game loop to include obstacles
+        function gameLoop() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Update bird position
+            bird.velocity += bird.gravity;
+            bird.y += bird.velocity;
+
+            // Draw bird
+            ctx.beginPath();
+            ctx.arc(bird.x, bird.y, bird.radius, 0, Math.PI * 2);
+            ctx.fillStyle = 'red';
+            ctx.fill();
+            ctx.closePath();
+
+            // Create new obstacles
+            if (obstacles.length === 0 || obstacles[obstacles.length - 1].x < canvas.width - 300) {
+                createObstacle();
+            }
+
+            // Move and draw obstacles
+            moveObstacles();
+            drawObstacles();
+
+            // Call game loop recursively
+            requestAnimationFrame(gameLoop);
+        }
+        
+
+        // Start the game
+        document.addEventListener('keydown', handleKeyPress);
+        gameLoop();
+    </script>
+</body>
+</html>
